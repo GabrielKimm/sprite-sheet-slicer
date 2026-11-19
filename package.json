@@ -1,0 +1,16 @@
+{
+  "name": "sprite-sheet-slicer",
+  "version": "0.1.0",
+  "description": "Claude Code skill that cuts pixel-art sprite sheets into one image per asset",
+  "license": "MIT",
+  "author": "Gabriel Kim",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node test/behaviour.js",
+    "bench": "node test/gen.js .bench/cases && node test/bench.js .bench/cases .bench/runs",
+    "format": "npx prettier --write \"skills/**/*.js\" \"test/*.js\""
+  }
+}
