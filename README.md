@@ -33,7 +33,7 @@ As a plugin, from inside Claude Code:
 /plugin install sprite-sheet-slicer@gabrielkimm
 ```
 
-The skill is then available as `/sprite-sheet-slicer:sprite-sheet-slicer`. The plugin route has been checked with `claude plugin validate` but not yet installed from GitHub end to end.
+The skill is then available as `/sprite-sheet-slicer:sprite-sheet-slicer`. From a shell the same two steps are `claude plugin marketplace add GabrielKimm/sprite-sheet-slicer` and `claude plugin install sprite-sheet-slicer@gabrielkimm`. This route was installed from GitHub with Claude Code 2.1.308 and the installed scripts pass the behaviour tests.
 
 Or as a plain skill, by copying the folder:
 
