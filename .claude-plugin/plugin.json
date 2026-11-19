@@ -1,6 +1,6 @@
 {
   "name": "sprite-sheet-slicer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Cuts pixel-art sprite sheets, tilesets and icon sheets into one PNG per asset with a named catalogue.",
   "author": {
     "name": "Gabriel Kim"
