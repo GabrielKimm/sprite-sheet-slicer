@@ -1,0 +1,12 @@
+{
+  "name": "sprite-sheet-slicer",
+  "version": "0.1.0",
+  "description": "Cuts pixel-art sprite sheets, tilesets and icon sheets into one PNG per asset with a named catalogue.",
+  "author": {
+    "name": "Gabriel Kim"
+  },
+  "homepage": "https://github.com/GabrielKimm/sprite-sheet-slicer",
+  "repository": "https://github.com/GabrielKimm/sprite-sheet-slicer",
+  "license": "MIT",
+  "keywords": ["sprite-sheet", "pixel-art", "tileset", "texture-atlas", "gamedev"]
+}

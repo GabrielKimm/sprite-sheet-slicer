@@ -4,7 +4,15 @@
 
 # sprite-sheet-slicer
 
-A Claude Code skill that cuts a pixel-art sprite sheet into one PNG per asset and writes a catalogue of what it cut.
+A Claude Code skill that cuts a pixel-art sprite sheet into one PNG per asset and writes a catalogue of what it cut. It works as a sprite sheet splitter or unpacker for sheets that were never packed by a tool: it extracts the sprites from a sheet, tileset or icon sheet and writes a texture atlas description alongside them.
+
+| The sheet | The review page Claude reads |
+|---|---|
+| ![A synthetic sheet of props packed edge to edge](docs/images/sheet.png) | ![The same sheet with every object outlined and numbered](docs/images/review.png) |
+
+![Twelve of the sprites exported from that sheet](docs/images/sprites.png)
+
+The sheet above comes from the test generator in this repository. Its 30 connected blobs were cut into 91 objects along the seams where two outlines meet.
 
 It is meant for the sheets a grid import gets wrong: props packed edge to edge, assets drawn as several loose pieces, enlarged store previews, sheets with no grid at all. A script finds every object on the sheet and draws numbered review pages. Claude reads the pages, decides which objects make up one asset, and answers with short edit ops. The script checks the ops, applies them and exports the sprites.
 
@@ -18,7 +26,23 @@ The idea behind it is a split of work. The script owns the pixels: it knows exac
 
 ## Installation
 
-Copy `skills/sprite-sheet-slicer` into `~/.claude/skills/` to have it in every project, or into a project's `.claude/skills/` to keep it with that project. Claude Code picks it up from the folder; requests such as "slice this sprite sheet" or "split this asset pack into sprites" trigger it.
+As a plugin, from inside Claude Code:
+
+```
+/plugin marketplace add GabrielKimm/sprite-sheet-slicer
+/plugin install sprite-sheet-slicer@gabrielkimm
+```
+
+The skill is then available as `/sprite-sheet-slicer:sprite-sheet-slicer`. The plugin route has been checked with `claude plugin validate` but not yet installed from GitHub end to end.
+
+Or as a plain skill, by copying the folder:
+
+```
+git clone https://github.com/GabrielKimm/sprite-sheet-slicer
+cp -r sprite-sheet-slicer/skills/sprite-sheet-slicer ~/.claude/skills/
+```
+
+Use a project's `.claude/skills/` instead to keep it with that project. Either way, requests such as "slice this sprite sheet" or "split this asset pack into sprites" trigger it.
 
 The skill does not declare `allowed-tools`, so Claude Code may ask for permission before each `node` command until you allow it.
 

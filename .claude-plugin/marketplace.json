@@ -1,0 +1,14 @@
+{
+  "name": "gabrielkimm",
+  "description": "Claude Code plugins by Gabriel Kim",
+  "owner": {
+    "name": "Gabriel Kim"
+  },
+  "plugins": [
+    {
+      "name": "sprite-sheet-slicer",
+      "source": "./",
+      "description": "Cuts pixel-art sprite sheets into one PNG per asset with a named catalogue"
+    }
+  ]
+}
