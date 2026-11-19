@@ -4,7 +4,7 @@
 
 # sprite-sheet-slicer
 
-A Claude Code skill that cuts a pixel-art sprite sheet into one PNG per asset and writes a catalogue of what it cut. It works as a sprite sheet splitter or unpacker for sheets that were never packed by a tool: it extracts the sprites from a sheet, tileset or icon sheet and writes a texture atlas description alongside them.
+An agent skill for Claude Code and Codex that cuts a pixel-art sprite sheet into one PNG per asset and writes a catalogue of what it cut. It works as a sprite sheet splitter or unpacker for sheets that were never packed by a tool: it extracts the sprites from a sheet, tileset or icon sheet and writes a texture atlas description alongside them.
 
 | The sheet | The review page Claude reads |
 |---|---|
@@ -21,7 +21,7 @@ The idea behind it is a split of work. The script owns the pixels: it knows exac
 ## Requirements
 
 - Node on PATH (developed on Node 24). There is nothing to install; the scripts use only Node's standard library, PNG codec included.
-- Claude Code.
+- Claude Code or Codex.
 - PNG input. Interlaced and animated PNGs are refused with a message.
 
 ## Installation
@@ -42,13 +42,22 @@ git clone https://github.com/GabrielKimm/sprite-sheet-slicer
 cp -r sprite-sheet-slicer/skills/sprite-sheet-slicer ~/.claude/skills/
 ```
 
-Use a project's `.claude/skills/` instead to keep it with that project. Either way, requests such as "slice this sprite sheet" or "split this asset pack into sprites" trigger it.
+Use a project's `.claude/skills/` instead to keep it with that project.
 
-The skill does not declare `allowed-tools`, so Claude Code may ask for permission before each `node` command until you allow it.
+In Codex, ask for it by URL (`Install the skill at https://github.com/GabrielKimm/sprite-sheet-slicer/tree/main/skills/sprite-sheet-slicer`), or copy the folder yourself and restart Codex:
+
+```
+git clone https://github.com/GabrielKimm/sprite-sheet-slicer
+cp -r sprite-sheet-slicer/skills/sprite-sheet-slicer ~/.codex/skills/
+```
+
+It can then be called as `$sprite-sheet-slicer`. In every case, requests such as "slice this sprite sheet" or "split this asset pack into sprites" trigger it.
+
+The skill does not declare `allowed-tools`, so Claude Code may ask for permission before each `node` command until you allow it. Codex follows its own approval mode.
 
 ## How it runs
 
-You normally do not type these commands; Claude runs them while following `SKILL.md`. They are shown here so you know what happens, and they work the same by hand. `node skills/sprite-sheet-slicer/scripts/sheet.js --help` lists every option.
+You normally do not type these commands; the agent runs them while following `SKILL.md`. They are shown here so you know what happens, and they work the same by hand. `node skills/sprite-sheet-slicer/scripts/sheet.js --help` lists every option.
 
 The example uses a synthetic icon sheet from the test generator, run from the repository root:
 
@@ -148,6 +157,7 @@ node test/bench.js .bench/heldout .bench/runs --mode hint
 skills/sprite-sheet-slicer/
   SKILL.md            workflow and decision rules Claude follows
   references/         ops reference, sheet kinds, output fields
+  agents/openai.yaml  name and prompt shown in the Codex skill list
   scripts/
     png.js            PNG decoder and encoder on node:zlib
     core.js           scale, background, components, lattice, seams, shadows

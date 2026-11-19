@@ -15,7 +15,7 @@ Words used here: an **object** is one region the script found and numbered. An *
 
 Requires Node on PATH (`node --version`). Nothing to install. Input must be PNG.
 
-Commands are run as `node "${CLAUDE_SKILL_DIR}/scripts/sheet.js" <command> ...`, with paths in quotes; `--help` lists every command and option. Pick a work folder per sheet (`WORK`) and a new, empty output folder (`OUT`), both outside the skill folder. Write ops and names files with the Write tool, which saves UTF-8; a UTF-16 file from a PowerShell redirect is refused.
+Commands are run as `node "${CLAUDE_SKILL_DIR}/scripts/sheet.js" <command> ...`, with paths in quotes; `--help` lists every command and option. Claude Code fills in the skill folder in these commands. If you see a placeholder starting with `${CLAUDE_` instead of a real path (Codex and other agents), put the folder that holds this SKILL.md in its place. Pick a work folder per sheet (`WORK`) and a new, empty output folder (`OUT`), both outside the skill folder. Write ops and names files with your file-writing tool (Write in Claude Code, apply_patch in Codex), which saves UTF-8; a UTF-16 file from a PowerShell redirect is refused.
 
 Progress list to copy and tick:
 
@@ -32,7 +32,7 @@ Progress list to copy and tick:
 
 1. **Check the licence.** If the user gave a store page or a readme, read its licence text. If it restricts AI use ("no AI", "not for AI training", "may not be fed to AI"), stop and ask the user how to proceed.
    - If they tell you to go ahead, carry on with the normal workflow and say in your report that they made that call.
-   - If they want the artwork kept away from AI: run `detect` and `review`, tell them where `WORK/pages` is, and let them look and write the ops file. Do not Read the pages, `native.png` or any sprite. You may still run `apply`, `review`, `status` and `export` for them and read the text those print.
+   - If they want the artwork kept away from AI: run `detect` and `review`, tell them where `WORK/pages` is, and let them look and write the ops file. Do not open the pages, `native.png` or any sprite. You may still run `apply`, `review`, `status` and `export` for them and read the text those print.
 2. **Find the tile size.** Pack descriptions usually state it ("16x16 tiles", "32x32 style aligned to a 16 grid"). Pass it as `--tile N`. It matters most on art without outlines: on synthetic test sheets of unoutlined terrain and flat-shaded props, the script cut about 90% of assets correctly with the tile size and under 40% without. If the description says there is no grid, pass `--tile none`. If it says nothing, leave `--tile` out; the script then tries to infer a size and says so.
 3. **One sheet, one work folder.** Rerunning `detect` on a work folder starts that sheet over.
 
@@ -64,7 +64,7 @@ It prints the background it found, the art style (outlined or flat; informationa
 node "${CLAUDE_SKILL_DIR}/scripts/sheet.js" review --work "WORK"
 ```
 
-This writes `WORK/pages/*.png` and `WORK/objects.json` and prints hints. Read the pages with the Read tool: all of them when there are eight or fewer; otherwise those listing flagged objects first, then a sample of the rest. Pages overlap a little, so an object near a page edge appears on two pages with the same id. A sheet that fits is drawn on one page; a sheet of more than 600 objects gets only the pages with flagged objects (or a sample when nothing is flagged).
+This writes `WORK/pages/*.png` and `WORK/objects.json` and prints hints. Open the pages with your image-viewing tool (Read in Claude Code, view_image in Codex): all of them when there are eight or fewer; otherwise those listing flagged objects first, then a sample of the rest. Pages overlap a little, so an object near a page edge appears on two pages with the same id. A sheet that fits is drawn on one page; a sheet of more than 600 objects gets only the pages with flagged objects (or a sample when nothing is flagged).
 
 Reading a page:
 

@@ -136,4 +136,4 @@ Marks flagged objects as checked so they stop being flagged. It changes no objec
 | `... pieces would be slivers ...` | The artwork straddles the lattice. See `tiles` above. |
 | `"region" only applies to cells and near` | Remove the region, or list ids. |
 | `no tile size` | `cells` and `tiles` need a lattice. Rerun `detect --tile N`, or use `cut` with `px`. |
-| `... is UTF-16` | The file was written by a shell redirect. Write it with the Write tool. |
+| `... is UTF-16` | The file was written by a shell redirect. Write it with your file-writing tool. |

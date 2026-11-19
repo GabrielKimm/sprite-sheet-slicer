@@ -114,7 +114,7 @@ const readJson = (file, what) => {
     ((text[0] === 0xff && text[1] === 0xfe) || (text[0] === 0xfe && text[1] === 0xff))
   )
     throw new Error(
-      `${what} ${file} is UTF-16. Save it as UTF-8 (the Write tool does; PowerShell's > and Out-File do not by default).`,
+      `${what} ${file} is UTF-16. Save it as UTF-8 (a file-writing tool does; PowerShell's > and Out-File do not by default).`,
     );
   try {
     return JSON.parse(text.toString('utf8').replace(/^\uFEFF/, ''));

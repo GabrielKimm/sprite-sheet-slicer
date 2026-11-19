@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sprite Sheet Slicer"
+  short_description: "Cut pixel-art sprite sheets into one PNG per asset"
+  default_prompt: "Use $sprite-sheet-slicer to slice this sprite sheet into one PNG per asset and catalogue the result."
