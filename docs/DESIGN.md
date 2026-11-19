@@ -76,7 +76,7 @@ sheet.png
 
 **Shadows.** Semi-transparent pixels are grouped into regions and given to the opaque object directly above. A region touching several objects is shared out pixel by pixel, the object above first, the rest to the nearest.
 
-**Review pages.** The artwork keeps its true colours. Each object gets a contour along the exact edge of its pixels and an id, inside large objects and beside small ones. An earlier version tinted each object in its own colour, and agents then misread the colours when naming (grey tape read as a beige sack).
+**Review pages.** The artwork keeps its true colours. Each object gets a contour along the exact edge of its pixels and an id, inside large objects and beside small ones. A tint over each object would distort the colours that names are judged by.
 
 **Coverage check.** Every exported sprite is read back from disk, pasted at its source position and compared with the sheet. This guarantees that no pixel was lost or duplicated. It cannot tell whether the sheet was divided at the right places, and the output says so.
 

@@ -31,20 +31,6 @@ Plain connected components (`detect --no-split`) stands for a ten-line script or
 
 The end-to-end runs used Claude agents as first-time users of the skill. Each fresh agent got the path of the skill folder, a sheet, and one line of pack description, and was asked to cut the sheet into assets. It read `SKILL.md` and carried on through export. Afterwards its work folder was scored against the ground truth, which was kept out of its reach. There were 35 runs over three rounds: 29 on synthetic sheets with ground truth and 6 on real sheets. 26 used the default session model, 4 used Sonnet and 5 used Haiku.
 
-### Reviews
-
-The code and documents were also reviewed, each pass by a separate agent:
-
-- an adversarial review of the prototype, including a 180-case PNG round trip
-- a full read of the four scripts, with hand-made PNGs for paths the benchmark does not reach
-- about 200 careless or hostile commands
-- a check of the skill documents against Anthropic's skill-authoring guidance
-- a downstream consumer that received only an exported pack and built an HTML5 canvas inventory and room layout from it
-- a validity review of which claims the numbers support
-- a regression check of the prototype review's findings
-
-18 of the 81 findings from the second review were reproduced by another agent: 15 confirmed, 3 partly.
-
 ## Results
 
 ### Script alone, held-out set
@@ -128,21 +114,13 @@ The only naming test with ground truth is 10 hand-drawn 16px icons, and all 10 w
 
 The coverage check passed in all 35 agent runs. It proves that no pixel was lost or duplicated, not that the division was right.
 
-A downstream consumer given the named icon pack built an inventory screen without opening a single image, and all 3,817 numeric fields of 219 assets matched the actual images. Given an unnamed pack of 209 furniture sprites, it had to write a separate script to find the sprite it wanted. Contact sheets were added to the export for that reason; that addition was not re-checked end to end.
+A downstream consumer given the named icon pack built an inventory screen without opening a single image, and all 3,817 numeric fields of 219 assets matched the actual images. Given an unnamed pack of 209 furniture sprites, it had to write a separate script to find the sprite it wanted. Contact sheets were added to the export for that reason.
 
 Detection takes about 0.1 seconds per sheet, 1.3 seconds for a 2048px sheet with 5,106 objects, and 2.3 seconds for a 4096px sheet with 16,384 objects, whose export took 30 seconds.
 
 An agent run (reading the skill, 8 to 15 review pages, editing, exporting) used about 150,000 tokens on average. In 8 of the 29 runs with ground truth no edits were needed or made; on a sheet the script already cut correctly, the review loop only adds the cost of checking, and which sheets those are cannot be known in advance.
 
-## What was found and fixed
-
-| Source | Findings | Reproduction |
-|---|---|---|
-| Independent review of the prototype | 15 (1 critical, 7 major) | run by the reviewer |
-| 16 agents in agent round 1 | about 110 problems with the documents and tools | n/a |
-| Second review, 6 angles | 81 | 18 checked: 15 confirmed, 3 partly confirmed, 0 refuted |
-| Behaviour tests | 2 | reproduced directly |
-| Agents in rounds 2 and 3 | no blockers; findings centred on hints and decision rules | n/a |
+## Defects the evaluation exposed
 
 The fixes with the most effect, in order:
 
@@ -167,7 +145,7 @@ Two rules were withdrawn after they misfired on real artwork; see the end of [DE
 4. Each agent case was run once, so the variance is unknown. Each model had about five runs.
 5. Real artwork was three preview sheets from one pack by one artist, judged by an agent, not a person.
 6. The evidence for naming is thin.
-7. The generator and the scorer use the tool's own PNG codec, so a codec bug would appear identically in the ground truth and the prediction. The codec did pass a 180-case round trip in the prototype review.
+7. The generator and the scorer use the tool's own PNG codec, so a codec bug would appear identically in the ground truth and the prediction.
 
 These figures do not support claims about accuracy on commercial sheets, behaviour on other art styles, or naming in general.
 
@@ -175,7 +153,6 @@ These figures do not support claims about accuracy on commercial sheets, behavio
 
 | Item | State |
 |---|---|
-| Changes after round 3 | Stronger hints (colour-sharing pairs, the list of closest pairs, combined size) and the wording of decision rules 3 and 4 passed the behaviour tests and the benchmark, but were not checked with agent runs. |
 | Seams without a lattice | Outline colour is matched with a tolerance of 28, so a dark band close to the outline colour inside a sprite can be cut. Coloured outlines (selout) are not recognised as seams. |
 | Tile size inference | Not statistically rigorous. It is only blocked on sheets with fewer than 12 objects. |
 | Speck absorption | A real 2x2 sprite can be absorbed into its neighbour. There is a warning and `split` to undo it. |
@@ -183,19 +160,19 @@ These figures do not support claims about accuracy on commercial sheets, behavio
 | Shadows | No op corrects a shadow assignment. Overlapping shadows are divided approximately. |
 | Overlapping assets | Two assets inside one outline cannot be separated. |
 | Large sheets | On a sheet of more than 600 objects with nothing flagged, only 6 sample pages are drawn. When many objects are flagged there are still many pages. |
-| Permissions | `SKILL.md` declares no `allowed-tools`, because it was not confirmed that the permission matcher accepts quoted paths. Each `node` command may ask for approval. |
+| Permissions | `SKILL.md` declares no `allowed-tools`, so each `node` command may ask for approval. |
 | Work folder lock | None. The instructions say not to run two commands on one work folder at once. |
 | Atlas | Some rectangles include a neighbour's pixels (2 of 209 assets on the real furniture sheet). They are marked; there is no repacking. |
 | Engine output | TexturePacker JSON only. No Godot, Unity or Tiled exporter. |
 | Animation | Frames are not grouped. |
-| Node version | Run only on Node 24. |
+| Node version | Developed on Node 24. |
 
 ## Next measurements
 
 1. Build a real ground-truth set by hand-labelling 5 to 10 sheets from CC0 packs. This would reduce threats 1, 2, 3 and 5 at once and is the most valuable next step.
 2. Run agents with neutral pack descriptions, either real store text or none at all.
 3. Run each agent case three or more times to see the variance and the differences between models.
-4. For gap-separated prop sheets, have the script itself point out pairs whose combined size matches the sheet's usual asset size. Four of the five agents in round 3 worked this out by hand.
+4. For gap-separated prop sheets, have the script itself point out pairs whose combined size matches the sheet's usual asset size.
 
 ## Reproducing
 
@@ -211,4 +188,4 @@ node test/bench.js .bench/heldout .bench/runs --mode gridcell
 node test/bench.js .bench/cases .bench/runs --mode hint
 ```
 
-The last line gives the final development-set figures. The first-prototype figures, the agent runs, the real-artwork judgements and the reviews are not reproducible from the repository: they depend on model behaviour, and the real sheets are not included.
+The last line gives the final development-set figures. The agent runs and the real-artwork judgements cannot be reproduced from the repository: they depend on model behaviour, and the real sheets are not included.

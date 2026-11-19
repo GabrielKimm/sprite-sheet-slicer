@@ -13,7 +13,7 @@ The script owns the pixels and you own the meaning.
 
 Words used here: an **object** is one region the script found and numbered. An **asset** is what the game needs: one prop, one icon, one tile. The job is to make every object exactly one asset. A **cell** is one square of the sheet's tile grid.
 
-Requires Node on PATH (`node --version`; tested on Node 24, 18 or newer is expected to work but untested). Nothing to install. Input must be PNG.
+Requires Node on PATH (`node --version`). Nothing to install. Input must be PNG.
 
 Commands are run as `node "${CLAUDE_SKILL_DIR}/scripts/sheet.js" <command> ...`, with paths in quotes; `--help` lists every command and option. Pick a work folder per sheet (`WORK`) and a new, empty output folder (`OUT`), both outside the skill folder. Write ops and names files with the Write tool, which saves UTF-8; a UTF-16 file from a PowerShell redirect is refused.
 

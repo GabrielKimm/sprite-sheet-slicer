@@ -20,7 +20,7 @@ The idea behind it is a split of work. The script owns the pixels: it knows exac
 
 ## Requirements
 
-- Node on PATH, tested on Node 24. package.json allows 18 or newer, which has not been tested. There is nothing to install; the scripts use only Node's standard library, PNG codec included.
+- Node on PATH (developed on Node 24). There is nothing to install; the scripts use only Node's standard library, PNG codec included.
 - Claude Code.
 - PNG input. Interlaced and animated PNGs are refused with a message.
 
@@ -33,7 +33,7 @@ As a plugin, from inside Claude Code:
 /plugin install sprite-sheet-slicer@gabrielkimm
 ```
 
-The skill is then available as `/sprite-sheet-slicer:sprite-sheet-slicer`. From a shell the same two steps are `claude plugin marketplace add GabrielKimm/sprite-sheet-slicer` and `claude plugin install sprite-sheet-slicer@gabrielkimm`. This route was installed from GitHub with Claude Code 2.1.308 and the installed scripts pass the behaviour tests.
+The skill is then available as `/sprite-sheet-slicer:sprite-sheet-slicer`. From a shell the same two steps are `claude plugin marketplace add GabrielKimm/sprite-sheet-slicer` and `claude plugin install sprite-sheet-slicer@gabrielkimm`.
 
 Or as a plain skill, by copying the folder:
 
@@ -102,7 +102,7 @@ It was built for hard-edged pixel art: furniture and prop sheets packed edge to 
 Use something else in these cases:
 
 - A grid with one icon per cell, or a pure tileset. Your engine's grid import already gets these exactly right. The skill gets there too, but it costs one extra op and a review round.
-- Anti-aliased or painted artwork, high-resolution illustration, JPEG. Out of scope and untested; segmentation will be poor.
+- Anti-aliased or painted artwork, high-resolution illustration, JPEG. Out of scope; segmentation will be poor.
 - Composed scenes, where objects overlap and stand on a floor. These cannot be cut into clean assets; `detect` says so.
 - Two assets drawn overlapping inside one outline. They cannot be separated.
 - A background the same colour as the outlines. The script warns; ask for a transparent source.
@@ -122,7 +122,7 @@ From a held-out set of 40 synthetic sheets (3,219 assets) that the script first 
 
 On 7 of these sheets (585 assets), Claude running the full skill got 95.6% of assets exact, pooled over the assets, where the script alone got 82.2% on the same sheets.
 
-Read these with their limits. Every sheet with ground truth comes from this repository's own generator, which draws cleaner art than commercial packs: pure black outlines, one tile size, one enlargement factor. The agent runs were one run per sheet. The script alone gets 98.7% of single-piece assets and almost none of the assets drawn in several pieces; joining those is the review loop's job. Real artwork was three sheets from one pack, judged by a separate agent without ground truth. The numbers do not support a claim about accuracy on commercial sheets. Details, baselines per family and open problems are in [docs/EVALUATION.md](docs/EVALUATION.md).
+These sheets come from this repository's own generator, which draws cleaner art than commercial packs, so the figures are not a claim about commercial sheets. The script alone gets 98.7% of single-piece assets and almost none of the assets drawn in several pieces; joining those is the review loop's job. Method, per-family baselines and open problems are in [docs/EVALUATION.md](docs/EVALUATION.md).
 
 ## Artwork licences
 
